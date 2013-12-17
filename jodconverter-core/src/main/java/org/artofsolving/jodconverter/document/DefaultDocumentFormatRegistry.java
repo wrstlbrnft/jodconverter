@@ -153,26 +153,22 @@ public class DefaultDocumentFormatRegistry extends SimpleDocumentFormatRegistry 
         svg.setStoreProperties(DocumentFamily.DRAWING, Collections.singletonMap("FilterName", "draw_svg_Export"));
         addFormat(svg);
 
-		/**
-		 * Microsoft Visio 2000-2013 (*.vdx;*.vsd;*.vsdm;*.vsdx)
-		 */
-
-		DocumentFormat vdx = new DocumentFormat("Microsoft Visio 2000-2013", "vdx", "application/vnd.visio");
+		DocumentFormat vdx = new DocumentFormat("Microsoft Visio XML Drawing", "vdx", "application/vnd.visio");
 		vdx.setInputFamily(DocumentFamily.DRAWING);
 		vdx.setStoreProperties(DocumentFamily.DRAWING, Collections.singletonMap("FilterName", "draw_pdf_Export"));
 		addFormat(vdx);
 
-		DocumentFormat vsd = new DocumentFormat("Microsoft Visio 2000-2013", "vsd", "application/vnd.visio");
+		DocumentFormat vsd = new DocumentFormat("Microsoft Visio Drawing", "vsd", "application/vnd.visio");
 		vsd.setInputFamily(DocumentFamily.DRAWING);
 		vsd.setStoreProperties(DocumentFamily.DRAWING, Collections.singletonMap("FilterName", "draw_pdf_Export"));
 		addFormat(vsd);
 
-		DocumentFormat vsdm = new DocumentFormat("Microsoft Visio 2000-2013", "vsdm", "application/vnd.visio");
+		DocumentFormat vsdm = new DocumentFormat("Microsoft Visio OPC/XML Drawing, Macro-enabled", "vsdm", "application/vnd.visio");
 		vsdm.setInputFamily(DocumentFamily.DRAWING);
 		vsdm.setStoreProperties(DocumentFamily.DRAWING, Collections.singletonMap("FilterName", "draw_pdf_Export"));
 		addFormat(vsdm);
 
-		DocumentFormat vsdx = new DocumentFormat("Microsoft Visio 2000-2013", "vsdx", "application/vnd.visio");
+		DocumentFormat vsdx = new DocumentFormat("Microsoft Visio OPC/XML Drawing", "vsdx", "application/vnd.visio");
 		vsdx.setInputFamily(DocumentFamily.DRAWING);
 		vsdx.setStoreProperties(DocumentFamily.DRAWING, Collections.singletonMap("FilterName", "draw_pdf_Export"));
 		addFormat(vsdx);

@@ -184,5 +184,29 @@
     "extension": "svg",
     "mediaType": "image/svg+xml",
     "storePropertiesByFamily": {"DRAWING": {"FilterName": "draw_svg_Export"}}
+  },
+  {
+    "name": "Microsoft Visio XML Drawing",
+    "extension": "vdx",
+    "mediaType": "application/vnd.visio",
+    "storePropertiesByFamily": {"DRAWING": {"FilterName": "draw_pdf_Export"}}
+  },
+  {
+    "name": "Microsoft Visio Drawing",
+    "extension": "vsd",
+    "mediaType": "application/vnd.visio",
+    "storePropertiesByFamily": {"DRAWING": {"FilterName": "draw_pdf_Export"}}
+  },
+  {
+    "name": "Microsoft Visio OPC/XML Drawing, Macro-enabled",
+    "extension": "vsdm",
+    "mediaType": "application/vnd.visio",
+    "storePropertiesByFamily": {"DRAWING": {"FilterName": "draw_pdf_Export"}}
+  },
+  {
+    "name": "Microsoft Visio OPC/XML Drawing",
+    "extension": "vsdx",
+    "mediaType": "application/vnd.visio",
+    "storePropertiesByFamily": {"DRAWING": {"FilterName": "draw_pdf_Export"}}
   }
 ]
