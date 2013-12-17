@@ -75,8 +75,8 @@ public class OfficeUtils {
             return findOfficeHome(
                 programFiles + File.separator + "OpenOffice.org",
                 programFiles + File.separator + "OpenOffice.org 3",
-                programFiles + File.separator + "LibreOffice"
-                programFiles + File.separator + "LibreOffice 3"
+                programFiles + File.separator + "LibreOffice",
+                programFiles + File.separator + "LibreOffice 3",
                 programFiles + File.separator + "LibreOffice 4"
             );
         } else if (PlatformUtils.isMac()) {
