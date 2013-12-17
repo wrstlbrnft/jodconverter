@@ -1,13 +1,14 @@
 # JODConverter
 
 JODConverter (for Java OpenDocument Converter) automates document conversions
-using LibreOffice or OpenOffice.org.
+using LibreOffice or Apache OpenOffice.
 
 Forked from https://github.com/mirkonasato/jodconverter
 
 There is documentation on [Google Code](http://code.google.com/p/jodconverter/). Over time I'll copy that over and update it as necessary so this can be a central point of reference.
 
 ## README Sections
+- [Licensing](#licensing)
 - [Version](#version)
 - [Supported Conversions](#supported-conversions)
 - [TODO](#todo)
@@ -16,6 +17,13 @@ There is documentation on [Google Code](http://code.google.com/p/jodconverter/).
 - [Building From Source](#building-from-source)
 - [What's New in 3](#whats-new-in-3)
 - [FAQ](#faq)
+
+## Licensing
+JODConverter is open source software, you can redistribute it and/or
+modify it under either (at your option) of the following licenses:
+
+1. The [GNU Lesser General Public License, Version 3](LICENSE-LGPL3.txt) (or later)
+2. The [Apache License, Version 2.0](LICENSE-APACHE2.txt)
 
 ## Version
 3 Beta... since I'm new to this particular project, I suspect it will remain in Beta for the forseeable future.
