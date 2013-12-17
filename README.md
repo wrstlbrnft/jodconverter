@@ -19,17 +19,17 @@ Listing of input file types (by extension) and the currently supported output fi
 <table>
 	<thead>
 		<tr>
-			<td colspan="2">**Application, Vendor, etc**</td>
+			<th colspan="2">Application, Vendor, etc</th>
 		</tr>
 		<tr>
-			<td>**Input File Type**</td>
-			<td>**Output File Type**</td>
+			<th>Input File Type</th>
+			<th>Output File Type</th>
 		</tr>
 	</thead>
 	<tfoot>
 		<tr>
 			<td colspan="2">
-				<div>*&spades; - Limited testing*</div>
+				<div>&spades; - Limited testing</div>
 			</td>
 		</tr>
 	</tfoot>
@@ -37,7 +37,7 @@ Listing of input file types (by extension) and the currently supported output fi
 
 		<tr><td colspan="2"></tr>
 		<tr>
-			<td colspan="2">Microsoft Visio<sup>&spades;</sup></td>
+			<th colspan="2">Microsoft Visio<sup>&spades;</sup></th>
 		</tr>
 		<tr>
 			<td>vdx</td>
@@ -58,7 +58,7 @@ Listing of input file types (by extension) and the currently supported output fi
 
 		<tr><td colspan="2"></tr>
 		<tr>
-			<td colspan="2">*... more complete listing coming ...*</td>
+			<th colspan="2">... more complete listing coming ...</th>
 		</tr>
 
 	</tbody>
