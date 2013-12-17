@@ -74,7 +74,10 @@ public class OfficeUtils {
             }
             return findOfficeHome(
                 programFiles + File.separator + "OpenOffice.org",
+                programFiles + File.separator + "OpenOffice.org 3",
                 programFiles + File.separator + "LibreOffice"
+                programFiles + File.separator + "LibreOffice 3"
+                programFiles + File.separator + "LibreOffice 4"
             );
         } else if (PlatformUtils.isMac()) {
             File officeHome = findOfficeHome(
@@ -92,11 +95,12 @@ public class OfficeUtils {
             File officeHome = findOfficeHome(
                 "/opt/openoffice",
                 "/opt/libreoffice",
+                "/usr/bin/openoffice",
+                "/usr/bin/libreoffice",
                 "/usr/lib/openoffice",
                 "/usr/lib/libreoffice",
                 "/usr/local/lib/openoffice",
                 "/usr/local/lib/libreoffice"
-
             );
 
             // Try with locate
