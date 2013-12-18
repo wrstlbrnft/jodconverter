@@ -100,10 +100,24 @@ Listing by an application's file type that are currently supported and which out
 
 ### Checkout
 Check out the source code and sample app from GitHub using your method of choice
-- [SSH](git@github.com:erictallman/jodconverter.git)
-- [HTTPS](https://github.com/erictallman/jodconverter.git)
-- [Subversion](https://github.com/erictallman/jodconverter)
-- [Download Zip](https://github.com/erictallman/jodconverter/archive/master.zip)
+
+SSH
+```
+git clone git@github.com:erictallman/jodconverter.git ~/projects/jodconverter
+```
+
+HTTPS
+```
+git clone https://github.com/erictallman/jodconverter.git ~/projects/jodconverter
+```
+
+Subversion
+```
+svn checkout https://github.com/erictallman/jodconverter ~/projects/jodconverter
+```
+
+or, [Download Zip](https://github.com/erictallman/jodconverter/archive/master.zip)
+
 
 For this documentation we'll assume you have checked it out into:
 ```
