@@ -97,7 +97,81 @@ Listing by an application's file type that are currently supported and which out
 [Google Code Configuration Page](http://code.google.com/p/jodconverter/wiki/Configuration)
 
 ## Building from Source
-[Google Code Building from Source Page](http://code.google.com/p/jodconverter/wiki/BuildingFromSource)
+
+### Checkout
+Check out the source code and sample app from GitHub using your method of choice
+- [SSH](git@github.com:erictallman/jodconverter.git)
+- [HTTPS](https://github.com/erictallman/jodconverter.git)
+- [Subversion](https://github.com/erictallman/jodconverter)
+- [Download Zip](https://github.com/erictallman/jodconverter/archive/master.zip)
+
+For this documentation we'll assume you have checked it out into:
+```
+~/projects/jodconverter
+```
+
+The source code is located in:
+```
+~/projects/jodconverter/jodconverter-core
+```
+
+The sample app is located in:
+```
+~/projects/jodconverter/jodconverter-sample-webapp
+```
+
+### Maven Build
+JODConverter uses Maven 3 as its build tool, so it can be built in the usual Maven way. A Sigar native library is now required for building (although it's optional at runtime).
+
+Please see the [Maven](http://maven.apache.org/) website for more information about Maven.
+
+#### Get Sigar
+Since we need Sigar for the build process, download the right one for your system from [svn.hyperic.org](http://svn.hyperic.org/projects/sigar_bin/dist/SIGAR_1_6_5/lib/) and save it to a local dir. 
+```
+svn checkout http://svn.hyperic.org/projects/sigar_bin/dist/SIGAR_1_6_5/lib/ ~/projects/sigar1.6.5
+```
+
+#### Build Options
+Now that you have Sigar, you'll need to specify it in your build command.
+Example:
+```
+cd ~/projects/jodconverter/jodconverter-core
+mvn -Djava.library.path=~/projects/sigar1.6.5 clean install
+```
+You can specify the LibreOffice/OpenOffice installation path explicity using the -Doffice.home flag.
+Example:
+```
+cd ~/projects/jodconverter/jodconverter-core
+mvn -Djava.library.path=~/projects/sigar1.6.5 -Doffice.home=/usr/lib64/libreoffice clean install
+```
+
+If you experience test failures, try skipping the tests (not a good practice but because of OOo integration failures may be due to timeout values rather than real issues):
+Example:
+```
+cd ~/projects/jodconverter/jodconverter-core
+mvn -Djava.library.path=~/projects/sigar1.6.5 -Doffice.home=/usr/lib64/libreoffice -DskipTests clean install
+```
+
+After you've built and tested everything out, you can roll a distribution zip file, containing the JODConverter library and dependencies, and be on your way.
+Example:
+```
+cd ~/projects/jodconverter/jodconverter-core
+mvn assembly:single
+```
+
+Want to build and roll a distribution all in one command? You can do that too!
+Example:
+```
+cd ~/projects/jodconverter/jodconverter-core
+mvn -Djava.library.path=~/projects/sigar1.6.5 -Doffice.home=/usr/lib64/libreoffice -DskipTests clean install assembly:single
+```
+which should result in a file called jodconverter-core-3.0-SNAPSHOT-dist.zip in:
+```
+~/projects/jodconverter/jodconverter-core/target
+```
+
+
+Original: [Google Code Building from Source Page](http://code.google.com/p/jodconverter/wiki/BuildingFromSource)
 
 ## What's New in 3
 [Google Code What's New in Version 3.0 Page](http://code.google.com/p/jodconverter/wiki/WhatsNewInVersion3)
