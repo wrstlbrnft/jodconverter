@@ -25,6 +25,8 @@ modify it under either (at your option) of the following licenses:
 1. The [GNU Lesser General Public License, Version 3](LICENSE-LGPL3.txt) (or later)
 2. The [Apache License, Version 2.0](LICENSE-APACHE2.txt)
 
+Take a look at each individual dependency license to see if it's right for you.
+
 ## Version
 3 Beta... since I'm new to this particular project, I suspect it will remain in Beta for the forseeable future.
 
