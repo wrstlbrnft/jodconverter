@@ -128,11 +128,11 @@ _Notes:_
 		<td>odg, pdf, swf, vdx, vsd, vsdm, vsdx</td>
 	</tr>
 	<tr>
-		<td>vsdm</td>
+		<td>vsd</td>
 		<td>odg, pdf, swf, vdx, vsd, vsdm, vsdx</td>
 	</tr>
 	<tr>
-		<td>vsd</td>
+		<td>vsdm</td>
 		<td>odg, pdf, swf, vdx, vsd, vsdm, vsdx</td>
 	</tr>
 	<tr>
