@@ -233,14 +233,14 @@ You can specify the LibreOffice/OpenOffice installation path explicity using the
 Example:
 ```
 cd ~/projects/jodconverter/jodconverter-core
-mvn -Djava.library.path=~/projects/sigar1.6.5 -Doffice.home=/usr/lib64/libreoffice clean install
+mvn -Djava.library.path=~/projects/sigar1.6.5 -Doffice.home=/usr/bin/libreoffice clean install
 ```
 
 If you experience test failures, try skipping the tests (not a good practice but because of OOo integration failures may be due to timeout values rather than real issues):
 Example:
 ```
 cd ~/projects/jodconverter/jodconverter-core
-mvn -Djava.library.path=~/projects/sigar1.6.5 -Doffice.home=/usr/lib64/libreoffice -DskipTests clean install
+mvn -Djava.library.path=~/projects/sigar1.6.5 -Doffice.home=/usr/bin/libreoffice -DskipTests clean install
 ```
 
 After you've built and tested everything out, you can roll a distribution zip file, containing the JODConverter library and dependencies, and be on your way.
@@ -254,7 +254,7 @@ Want to build and roll a distribution all in one command? You can do that too!
 Example:
 ```
 cd ~/projects/jodconverter/jodconverter-core
-mvn -Djava.library.path=~/projects/sigar1.6.5 -Doffice.home=/usr/lib64/libreoffice -DskipTests clean install assembly:single
+mvn -Djava.library.path=~/projects/sigar1.6.5 -Doffice.home=/usr/bin/libreoffice -DskipTests clean install assembly:single
 ```
 which should result in a file called jodconverter-core-3.0-SNAPSHOT-dist.zip in:
 ```
