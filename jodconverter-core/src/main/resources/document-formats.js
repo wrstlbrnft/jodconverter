@@ -55,7 +55,8 @@
     "name": "Microsoft Word 2007 XML",
     "extension": "docx",
     "mediaType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-    "inputFamily": "TEXT"
+    "inputFamily": "TEXT",
+    "storePropertiesByFamily": {"TEXT": {"FilterName": "MS Word 2007 XML"}}
   },
   {
     "name": "Rich Text Format",
@@ -115,7 +116,8 @@
     "name": "Microsoft Excel 2007 XML",
     "extension": "xlsx",
     "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-    "inputFamily": "SPREADSHEET"
+    "inputFamily": "SPREADSHEET",
+    "storePropertiesByFamily": {"SPREADSHEET": {"FilterName": "Calc MS Excel 2007 XML"}}
   },
   {
     "name": "Comma Separated Values",
@@ -183,30 +185,35 @@
     "name": "Scalable Vector Graphics",
     "extension": "svg",
     "mediaType": "image/svg+xml",
+    "inputFamily": "DRAWING",
     "storePropertiesByFamily": {"DRAWING": {"FilterName": "draw_svg_Export"}}
   },
   {
     "name": "Microsoft Visio XML Drawing",
     "extension": "vdx",
     "mediaType": "application/vnd.visio",
+    "inputFamily": "DRAWING",
     "storePropertiesByFamily": {"DRAWING": {"FilterName": "draw_pdf_Export"}}
   },
   {
     "name": "Microsoft Visio Drawing",
     "extension": "vsd",
     "mediaType": "application/vnd.visio",
+    "inputFamily": "DRAWING",
     "storePropertiesByFamily": {"DRAWING": {"FilterName": "draw_pdf_Export"}}
   },
   {
     "name": "Microsoft Visio OPC/XML Drawing, Macro-enabled",
     "extension": "vsdm",
     "mediaType": "application/vnd.visio",
+    "inputFamily": "DRAWING",
     "storePropertiesByFamily": {"DRAWING": {"FilterName": "draw_pdf_Export"}}
   },
   {
     "name": "Microsoft Visio OPC/XML Drawing",
     "extension": "vsdx",
     "mediaType": "application/vnd.visio",
+    "inputFamily": "DRAWING",
     "storePropertiesByFamily": {"DRAWING": {"FilterName": "draw_pdf_Export"}}
   }
 ]

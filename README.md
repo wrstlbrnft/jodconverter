@@ -31,63 +31,56 @@ Take a look at each individual dependency license to see if it's right for you.
 3 Beta... since I'm new to this particular project, I suspect it will remain in Beta for the forseeable future.
 
 ## Supported Conversions
-Listing by an application's file type that are currently supported and which output targets are available by default.
-<table>
-	<thead>
-		<tr>
-			<th colspan="2">Application, Vendor, etc</th>
-		</tr>
-		<tr>
-			<th>Input File Type</th>
-			<th>Output File Type</th>
-		</tr>
-	</thead>
-	<tfoot>
-		<tr>
-			<td colspan="2">
-				<div>&spades; - Limited testing</div>
-			</td>
-		</tr>
-	</tfoot>
-	<tbody>
+Here's a listing of the input to output conversions that we have tests automated for. Each input format/extension is listed, followed by the formats/extensions that my tests have successfully converted the input format/extension to.
 
-		<tr><td colspan="2"></tr>
-		<tr>
-			<th colspan="2">Microsoft Visio<sup>&spades;</sup></th>
-		</tr>
-		<tr>
-			<td>vdx</td>
-			<td>pdf</td>
-		</tr>
-		<tr>
-			<td>vsd</td>
-			<td>pdf</td>
-		</tr>
-		<tr>
-			<td>vsdm</td>
-			<td>pdf</td>
-		</tr>
-		<tr>
-			<td>vsdx</td>
-			<td>pdf</td>
-		</tr>
+_Notes:_
+* _I performed these tests with LibreOffice version 4.1.3.2 on (K)ubuntu 13.10._
+* _I did not manually verify the accuracy of each conversion, I only know these conversions saved and exited._
 
-		<tr><td colspan="2"></tr>
-		<tr>
-			<th colspan="2">... more complete listing coming ...</th>
-		</tr>
+### General
+* csv: csv, html, ods, pdf, sxc, tsv, xls, xlsx
+* html: doc, docx, html, odt, pdf, rtf, sxw, txt
+* rtf: doc, docx, html, odt, pdf, rtf, sxw, txt
+* svg: odg, pdf, swf, vdx, vsd, vsdm, vsdx
+* tsv: csv, html, ods, pdf, sxc, tsv, xls, xlsx
+* txt: doc, docx, html, odt, pdf, rtf, sxw, txt
 
-	</tbody>
-</table>
+###LibreOffice, OpenOffice, StarOffice
+* odg: odg, pdf, swf, vdx, vsd, vsdm, vsdx
+* odp: html, odp, pdf, ppt, swf, sxi
+* ods: csv, html, ods, pdf, sxc, tsv, xls, xlsx
+* odt: doc, docx, html, odt, pdf, rtf, sxw, txt
+* sxc: csv, html, ods, pdf, sxc, tsv, xls, xlsx
+* sxi: html, odp, pdf, ppt, swf, sxi
+* sxw: doc, docx, html, odt, pdf, rtf, sxw, txt
+
+### Microsoft
+* doc: doc, docx, html, odt, pdf, rtf, sxw, txt
+* docx: doc, docx, html, odt, pdf, rtf, sxw, txt
+* ppt: html, odp, pdf, ppt, swf, sxi
+* vdx: odg, pdf, swf, vdx, vsd, vsdm, vsdx
+* vsdm: odg, pdf, swf, vdx, vsd, vsdm, vsdx
+* vsd: odg, pdf, swf, vdx, vsd, vsdm, vsdx
+* vsdx: odg, pdf, swf, vdx, vsd, vsdm, vsdx
+* xls: csv, html, ods, pdf, sxc, tsv, xls, xlsx
+* xlsx: csv, html, ods, pdf, sxc, tsv, xls, xlsx
+
+#### Unexpected Failures
+_I'm unable to save anything to svg format in my tests... not even a file that's already svg. The following conversions to svg have been attempted but have failed:_
+* _odg > svg_
+* _svg > svg_
+* _vdx > svg_
+* _vsd > svg_
+* _vsdm > svg_
+* _vsdx > svg_
 
 ## TODO
 - copy and update documentation from Google Code Wiki pages
   - Getting Started
   - Configuration
-  - Building from Source
   - Whats New in 3
   - FAQ
-- compile comprehensive list of default supported conversions
+- figure out why we can't save anything to svg format
 - finalize Visio to PDF support and provide tests
 
 ## Getting Started
