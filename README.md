@@ -31,7 +31,7 @@ Take a look at each individual dependency license to see if it's right for you.
 3 Beta... since I'm new to this particular project, I suspect it will remain in Beta for the forseeable future.
 
 ## Supported Conversions
-Here's a listing of the input to output conversions that we have tests automated for. Each input format/extension is listed, followed by the formats/extensions that my tests have successfully converted the input format/extension to.
+Here's a listing of the input to output conversions that I have tests automated for. Each input format/extension is listed, followed by the formats/extensions that my tests have successfully converted the input format/extension to.
 
 _Notes:_
 * _I performed these tests with LibreOffice version 4.1.3.2 on (K)ubuntu 13.10._
@@ -164,7 +164,7 @@ _I'm unable to save anything to svg format in my tests... not even a file that's
   - Configuration
   - Whats New in 3
   - FAQ
-- figure out why we can't save anything to svg format
+- figure out why I can't save anything to svg format
 - finalize Visio to PDF support and provide tests
 
 ## Getting Started
@@ -217,7 +217,7 @@ JODConverter uses Maven 3 as its build tool, so it can be built in the usual Mav
 Please see the [Maven](http://maven.apache.org/) website for more information about Maven.
 
 #### Get Sigar
-Since we need Sigar for the build process, download the right one for your system from [svn.hyperic.org](http://svn.hyperic.org/projects/sigar_bin/dist/SIGAR_1_6_5/lib/) and save it to a local dir. 
+Since you need Sigar for the build process, download the right one for your system from [svn.hyperic.org](http://svn.hyperic.org/projects/sigar_bin/dist/SIGAR_1_6_5/lib/) and save it to a local dir. 
 ```
 svn checkout http://svn.hyperic.org/projects/sigar_bin/dist/SIGAR_1_6_5/lib/ ~/projects/sigar1.6.5
 ```
