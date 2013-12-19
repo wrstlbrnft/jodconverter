@@ -38,32 +38,116 @@ _Notes:_
 * _I did not manually verify the accuracy of each conversion, I only know these conversions saved and exited._
 
 ### General
-* csv: csv, html, ods, pdf, sxc, tsv, xls, xlsx
-* html: doc, docx, html, odt, pdf, rtf, sxw, txt
-* rtf: doc, docx, html, odt, pdf, rtf, sxw, txt
-* svg: odg, pdf, swf, vdx, vsd, vsdm, vsdx
-* tsv: csv, html, ods, pdf, sxc, tsv, xls, xlsx
-* txt: doc, docx, html, odt, pdf, rtf, sxw, txt
+<table>
+	<tr>
+		<th>source</th>
+		<th>target</th>
+	</tr>
+	<tr>
+		<td>csv</td>
+		<td>csv, html, ods, pdf, sxc, tsv, xls, xlsx</td>
+	</tr>
+	<tr>
+		<td>html</td>
+		<td>doc, docx, html, odt, pdf, rtf, sxw, txt</td>
+	</tr>
+	<tr>
+		<td>rtf</td>
+		<td>doc, docx, html, odt, pdf, rtf, sxw, txt</td>
+	</tr>
+	<tr>
+		<td>svg</td>
+		<td>odg, pdf, swf, vdx, vsd, vsdm, vsdx</td>
+	</tr>
+	<tr>
+		<td>tsv</td>
+		<td>csv, html, ods, pdf, sxc, tsv, xls, xlsx</td>
+	</tr>
+	<tr>
+		<td>txt</td>
+		<td>doc, docx, html, odt, pdf, rtf, sxw, txt</td>
+	</tr>
+</table>
 
 ###LibreOffice, OpenOffice, StarOffice
-* odg: odg, pdf, swf, vdx, vsd, vsdm, vsdx
-* odp: html, odp, pdf, ppt, swf, sxi
-* ods: csv, html, ods, pdf, sxc, tsv, xls, xlsx
-* odt: doc, docx, html, odt, pdf, rtf, sxw, txt
-* sxc: csv, html, ods, pdf, sxc, tsv, xls, xlsx
-* sxi: html, odp, pdf, ppt, swf, sxi
-* sxw: doc, docx, html, odt, pdf, rtf, sxw, txt
+<table>
+	<tr>
+		<th>source</th>
+		<th>target</th>
+	</tr>
+	<tr>
+		<td>odg</td>
+		<td>odg, pdf, swf, vdx, vsd, vsdm, vsdx</td>
+	</tr>
+	<tr>
+		<td>odp</td>
+		<td>html, odp, pdf, ppt, swf, sxi</td>
+	</tr>
+	<tr>
+		<td>ods</td>
+		<td>csv, html, ods, pdf, sxc, tsv, xls, xlsx</td>
+	</tr>
+	<tr>
+		<td>odt</td>
+		<td>doc, docx, html, odt, pdf, rtf, sxw, txt</td>
+	</tr>
+	<tr>
+		<td>sxc</td>
+		<td>csv, html, ods, pdf, sxc, tsv, xls, xlsx</td>
+	</tr>
+	<tr>
+		<td>sxi</td>
+		<td>html, odp, pdf, ppt, swf, sxi</td>
+	</tr>
+	<tr>
+		<td>sxw</td>
+		<td>doc, docx, html, odt, pdf, rtf, sxw, txt</td>
+	</tr>
+</table>
 
 ### Microsoft
-* doc: doc, docx, html, odt, pdf, rtf, sxw, txt
-* docx: doc, docx, html, odt, pdf, rtf, sxw, txt
-* ppt: html, odp, pdf, ppt, swf, sxi
-* vdx: odg, pdf, swf, vdx, vsd, vsdm, vsdx
-* vsdm: odg, pdf, swf, vdx, vsd, vsdm, vsdx
-* vsd: odg, pdf, swf, vdx, vsd, vsdm, vsdx
-* vsdx: odg, pdf, swf, vdx, vsd, vsdm, vsdx
-* xls: csv, html, ods, pdf, sxc, tsv, xls, xlsx
-* xlsx: csv, html, ods, pdf, sxc, tsv, xls, xlsx
+<table>
+	<tr>
+		<th>source</th>
+		<th>target</th>
+	</tr>
+	<tr>
+		<td>doc</td>
+		<td>doc, docx, html, odt, pdf, rtf, sxw, txt</td>
+	</tr>
+	<tr>
+		<td>docx</td>
+		<td>doc, docx, html, odt, pdf, rtf, sxw, txt</td>
+	</tr>
+	<tr>
+		<td>ppt</td>
+		<td>html, odp, pdf, ppt, swf, sxi</td>
+	</tr>
+	<tr>
+		<td>vdx</td>
+		<td>odg, pdf, swf, vdx, vsd, vsdm, vsdx</td>
+	</tr>
+	<tr>
+		<td>vsdm</td>
+		<td>odg, pdf, swf, vdx, vsd, vsdm, vsdx</td>
+	</tr>
+	<tr>
+		<td>vsd</td>
+		<td>odg, pdf, swf, vdx, vsd, vsdm, vsdx</td>
+	</tr>
+	<tr>
+		<td>vsdx</td>
+		<td>odg, pdf, swf, vdx, vsd, vsdm, vsdx</td>
+	</tr>
+	<tr>
+		<td>xls</td>
+		<td>csv, html, ods, pdf, sxc, tsv, xls, xlsx</td>
+	</tr>
+	<tr>
+		<td>xlsx</td>
+		<td>csv, html, ods, pdf, sxc, tsv, xls, xlsx</td>
+	</tr>
+</table>
 
 #### Unexpected Failures
 _I'm unable to save anything to svg format in my tests... not even a file that's already svg. The following conversions to svg have been attempted but have failed:_
