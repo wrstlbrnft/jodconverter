@@ -85,6 +85,16 @@ class OfficeProcess {
         }
         logger.info(String.format("starting process with acceptString '%s' and profileDir '%s'", unoUrl, instanceProfileDir));
         process = processBuilder.start();
+		
+		// Fix for 24165, on linux it seems to take long the first time to start up. So adding a 5 second delay.
+		if (PlatformUtils.isLinux()) {
+			try {
+				Thread.sleep(5000);
+			} catch (InterruptedException e) {
+				logger.info(e.getMessage());
+			}
+		}
+		
         pid = processManager.findPid(processQuery);
         if (pid == PID_NOT_FOUND) {
             throw new IllegalStateException(String.format("process with acceptString '%s' started but its pid could not be found",
