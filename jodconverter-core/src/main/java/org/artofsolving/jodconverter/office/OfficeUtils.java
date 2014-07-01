@@ -17,10 +17,10 @@ import java.io.File;
 import java.io.InputStreamReader;
 import java.util.Map;
 
-import org.artofsolving.jodconverter.util.PlatformUtils;
-
 import com.sun.star.beans.PropertyValue;
 import com.sun.star.uno.UnoRuntime;
+
+import org.artofsolving.jodconverter.util.PlatformUtils;
 
 public class OfficeUtils {
 
@@ -30,25 +30,25 @@ public class OfficeUtils {
         throw new AssertionError("utility class must not be instantiated");
     }
 
-    public static <T> T cast(Class<T> type, Object object) {
+    public static <T> T cast(final Class<T> type, final Object object) {
         return (T) UnoRuntime.queryInterface(type, object);
     }
 
-    public static PropertyValue property(String name, Object value) {
-        PropertyValue propertyValue = new PropertyValue();
+    public static PropertyValue property(final String name, final Object value) {
+        final PropertyValue propertyValue = new PropertyValue();
         propertyValue.Name = name;
         propertyValue.Value = value;
         return propertyValue;
     }
 
     @SuppressWarnings("unchecked")
-    public static PropertyValue[] toUnoProperties(Map<String,?> properties) {
-        PropertyValue[] propertyValues = new PropertyValue[properties.size()];
+    public static PropertyValue[] toUnoProperties(final Map<String,?> properties) {
+        final PropertyValue[] propertyValues = new PropertyValue[properties.size()];
         int i = 0;
-        for (Map.Entry<String,?> entry : properties.entrySet()) {
+        for (final Map.Entry<String,?> entry : properties.entrySet()) {
             Object value = entry.getValue();
             if (value instanceof Map) {
-                Map<String,Object> subProperties = (Map<String,Object>) value;
+                final Map<String,Object> subProperties = (Map<String,Object>) value;
                 value = toUnoProperties(subProperties);
             }
             propertyValues[i++] = property((String) entry.getKey(), value);
@@ -56,9 +56,9 @@ public class OfficeUtils {
         return propertyValues;
     }
 
-    public static String toUrl(File file) {
-        String path = file.toURI().getRawPath();
-        String url = path.startsWith("//") ? "file:" + path : "file://" + path;
+    public static String toUrl(final File file) {
+        final String path = file.toURI().getRawPath();
+        final String url = path.startsWith("//") ? "file:" + path : "file://" + path;
         return url.endsWith("/") ? url.substring(0, url.length() - 1) : url;
     }
 
@@ -114,38 +114,38 @@ public class OfficeUtils {
     private static File locateOfficeHome() {
 
         String s = null;
-        String cmd = "locate soffice.bin";
+        final String cmd = "locate soffice.bin";
         try {
-        	Process p = Runtime.getRuntime().exec(cmd);
-        	int i = p.waitFor();
+        	final Process p = Runtime.getRuntime().exec(cmd);
+        	final int i = p.waitFor();
         	if (i == 0){
-        		BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
+        		final BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
 
         		// read the output from the command
         		while ((s = stdInput.readLine()) != null) {
-        			File f = new File(s);
+        			final File f = new File(s);
         			if (f.exists() && f.getName().equalsIgnoreCase("soffice.bin") && f.getParentFile() != null && f.getParentFile().getParentFile() != null) {
         				return f.getParentFile().getParentFile();
         			}
         		}
         	}
         	else {
-        		BufferedReader stdErr = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+        		final BufferedReader stdErr = new BufferedReader(new InputStreamReader(p.getErrorStream()));
         		// read the error output from the command
         		while ((s = stdErr.readLine()) != null) {
         		}
         	}
-        } catch (Throwable th) {
+        } catch (final Throwable th) {
         }
         return null;
     }
 
-    private static File findOfficeHome(String... knownPaths) {
-        for (String path : knownPaths) {
-            File home = new File(path);
-            File containerPath = home.getParentFile();
+    private static File findOfficeHome(final String... knownPaths) {
+        for (final String path : knownPaths) {
+            final File home = new File(path);
+            final File containerPath = home.getParentFile();
             if (containerPath != null && containerPath.isDirectory()) {
-            	for (File subDir : containerPath.listFiles()) {
+            	for (final File subDir : containerPath.listFiles()) {
             		if (subDir.isDirectory() && subDir.getName().startsWith(home.getName())) {
                         if (getOfficeExecutable(subDir).isFile()) {
                             return home;
@@ -157,9 +157,9 @@ public class OfficeUtils {
         return null;
     }
 
-    public static File getOfficeExecutable(File officeHome) {
+    public static File getOfficeExecutable(final File officeHome) {
         if (PlatformUtils.isMac()) {
-            return new File(officeHome, "MacOS/soffice.bin");
+            return new File(officeHome, "MacOS/soffice");
         } else if (PlatformUtils.isWindows()) {
 			return new File(officeHome, "program/soffice.exe");
 		}else {
