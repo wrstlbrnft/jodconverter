@@ -16,9 +16,10 @@ import java.io.File;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
 
 import org.artofsolving.jodconverter.process.ProcessManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 class ProcessPoolOfficeManager implements OfficeManager {
 
@@ -28,16 +29,16 @@ class ProcessPoolOfficeManager implements OfficeManager {
 
     private volatile boolean running = false;
 
-    private final Logger logger = Logger.getLogger(ProcessPoolOfficeManager.class.getName());
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    public ProcessPoolOfficeManager(File officeHome, UnoUrl[] unoUrls, String[] runAsArgs, File templateProfileDir, File workDir,
-            long retryTimeout, long taskQueueTimeout, long taskExecutionTimeout, int maxTasksPerProcess,
-            ProcessManager processManager) {
+    public ProcessPoolOfficeManager(final File officeHome, final UnoUrl[] unoUrls, final String[] runAsArgs, final File templateProfileDir, final File workDir,
+            final long retryTimeout, final long taskQueueTimeout, final long taskExecutionTimeout, final int maxTasksPerProcess,
+            final ProcessManager processManager) {
 		this.taskQueueTimeout = taskQueueTimeout;
-        pool = new ArrayBlockingQueue<PooledOfficeManager>(unoUrls.length);
-        pooledManagers = new PooledOfficeManager[unoUrls.length];
+        this.pool = new ArrayBlockingQueue<PooledOfficeManager>(unoUrls.length);
+        this.pooledManagers = new PooledOfficeManager[unoUrls.length];
         for (int i = 0; i < unoUrls.length; i++) {
-            PooledOfficeManagerSettings settings = new PooledOfficeManagerSettings(unoUrls[i]);
+            final PooledOfficeManagerSettings settings = new PooledOfficeManagerSettings(unoUrls[i]);
             settings.setRunAsArgs(runAsArgs);
             settings.setTemplateProfileDir(templateProfileDir);
             settings.setWorkDir(workDir);
@@ -46,65 +47,65 @@ class ProcessPoolOfficeManager implements OfficeManager {
             settings.setTaskExecutionTimeout(taskExecutionTimeout);
             settings.setMaxTasksPerProcess(maxTasksPerProcess);
             settings.setProcessManager(processManager);
-            pooledManagers[i] = new PooledOfficeManager(settings);
+            this.pooledManagers[i] = new PooledOfficeManager(settings);
         }
-        logger.info("ProcessManager implementation is " + processManager.getClass().getSimpleName());
+        this.logger.info("ProcessManager implementation is " + processManager.getClass().getSimpleName());
     }
 
     public synchronized void start() throws OfficeException {
-        for (int i = 0; i < pooledManagers.length; i++) {
-            pooledManagers[i].start();
-            releaseManager(pooledManagers[i]);
+        for (final PooledOfficeManager pooledManager : this.pooledManagers) {
+            pooledManager.start();
+            this.releaseManager(pooledManager);
         }
-        running = true;
+        this.running = true;
     }
 
-    public void execute(OfficeTask task) throws IllegalStateException, OfficeException {
-        if (!running) {
+    public void execute(final OfficeTask task) throws IllegalStateException, OfficeException {
+        if (!this.running) {
             throw new IllegalStateException("this OfficeManager is currently stopped");
         }
         PooledOfficeManager manager = null;
         try {
-            manager = acquireManager();
+            manager = this.acquireManager();
             if (manager == null) {
                 throw new OfficeException("no office manager available");
             }
             manager.execute(task);
         } finally {
             if (manager != null) {
-                releaseManager(manager);
+                this.releaseManager(manager);
             }
         }
     }
 
     public synchronized void stop() throws OfficeException {
-        running = false;
-        logger.info("stopping");
-        pool.clear();
-        for (int i = 0; i < pooledManagers.length; i++) {
-            pooledManagers[i].stop();
+        this.running = false;
+        this.logger.info("stopping");
+        this.pool.clear();
+        for (final PooledOfficeManager pooledManager : this.pooledManagers) {
+            pooledManager.stop();
         }
-        logger.info("stopped");
+        this.logger.info("stopped");
     }
 
     private PooledOfficeManager acquireManager() {
         try {
-            return pool.poll(taskQueueTimeout, TimeUnit.MILLISECONDS);
-        } catch (InterruptedException interruptedException) {
+            return this.pool.poll(this.taskQueueTimeout, TimeUnit.MILLISECONDS);
+        } catch (final InterruptedException interruptedException) {
             throw new OfficeException("interrupted", interruptedException);
         }
     }
 
-    private void releaseManager(PooledOfficeManager manager) {
+    private void releaseManager(final PooledOfficeManager manager) {
         try {
-            pool.put(manager);
-        } catch (InterruptedException interruptedException) {
+            this.pool.put(manager);
+        } catch (final InterruptedException interruptedException) {
             throw new OfficeException("interrupted", interruptedException);
         }
     }
 
 	public boolean isRunning() {
-		return running;
+		return this.running;
 	}
 
 }

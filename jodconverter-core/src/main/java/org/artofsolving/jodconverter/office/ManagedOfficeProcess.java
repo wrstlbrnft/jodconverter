@@ -16,11 +16,12 @@ import java.net.ConnectException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import com.sun.star.frame.XDesktop;
 import com.sun.star.lang.DisposedException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 class ManagedOfficeProcess {
 
@@ -31,78 +32,78 @@ class ManagedOfficeProcess {
 	private final OfficeProcess process;
 	private final OfficeConnection connection;
 
-	private ExecutorService executor = Executors.newSingleThreadExecutor(new NamedThreadFactory("OfficeProcessThread"));
+	private final ExecutorService executor = Executors.newSingleThreadExecutor(new NamedThreadFactory("OfficeProcessThread"));
 
-	private final Logger logger = Logger.getLogger(getClass().getName());
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	public ManagedOfficeProcess(ManagedOfficeProcessSettings settings) throws OfficeException {
+	public ManagedOfficeProcess(final ManagedOfficeProcessSettings settings) throws OfficeException {
 		this.settings = settings;
-		process = new OfficeProcess(settings.getOfficeHome(), settings.getUnoUrl(), settings.getRunAsArgs(), settings.getTemplateProfileDir(), settings.getWorkDir(), settings
+		this.process = new OfficeProcess(settings.getOfficeHome(), settings.getUnoUrl(), settings.getRunAsArgs(), settings.getTemplateProfileDir(), settings.getWorkDir(), settings
 				.getProcessManager());
-		connection = new OfficeConnection(settings.getUnoUrl());
+		this.connection = new OfficeConnection(settings.getUnoUrl());
 	}
 
 	public OfficeConnection getConnection() {
-		return connection;
+		return this.connection;
 	}
 
 	public void startAndWait() throws OfficeException {
-		Future<?> future = executor.submit(new Runnable() {
+		final Future<?> future = this.executor.submit(new Runnable() {
 			public void run() {
-				doStartProcessAndConnect();
+				ManagedOfficeProcess.this.doStartProcessAndConnect();
 			}
 		});
 		try {
 			future.get();
-		} catch (Exception exception) {
+		} catch (final Exception exception) {
 			throw new OfficeException("failed to start and connect", exception);
 		}
 	}
 
 	public void stopAndWait() throws OfficeException {
-		Future<?> future = executor.submit(new Runnable() {
+		final Future<?> future = this.executor.submit(new Runnable() {
 			public void run() {
-				doStopProcess();
+				ManagedOfficeProcess.this.doStopProcess();
 			}
 		});
 		try {
 			future.get();
-		} catch (Exception exception) {
+		} catch (final Exception exception) {
 			throw new OfficeException("failed to start and connect", exception);
 		}
 	}
 
 	public void restartAndWait() {
-		Future<?> future = executor.submit(new Runnable() {
+		final Future<?> future = this.executor.submit(new Runnable() {
 			public void run() {
-				doStopProcess();
-				doStartProcessAndConnect();
+				ManagedOfficeProcess.this.doStopProcess();
+				ManagedOfficeProcess.this.doStartProcessAndConnect();
 			}
 		});
 		try {
 			future.get();
-		} catch (Exception exception) {
+		} catch (final Exception exception) {
 			throw new OfficeException("failed to restart", exception);
 		}
 	}
 
 	public void restartDueToTaskTimeout() {
-		executor.execute(new Runnable() {
+		this.executor.execute(new Runnable() {
 			public void run() {
-				doTerminateProcess();
+				ManagedOfficeProcess.this.doTerminateProcess();
 				// will cause unexpected disconnection and subsequent restart
 			}
 		});
 	}
 
 	public void restartDueToLostConnection() {
-		executor.execute(new Runnable() {
+		this.executor.execute(new Runnable() {
 			public void run() {
 				try {
-					doEnsureProcessExited();
-					doStartProcessAndConnect();
-				} catch (OfficeException officeException) {
-					logger.log(Level.SEVERE, "could not restart process", officeException);
+					ManagedOfficeProcess.this.doEnsureProcessExited();
+					ManagedOfficeProcess.this.doStartProcessAndConnect();
+				} catch (final OfficeException officeException) {
+					ManagedOfficeProcess.this.logger.error("could not restart process", officeException);
 				}
 			}
 		});
@@ -110,67 +111,68 @@ class ManagedOfficeProcess {
 
 	private void doStartProcessAndConnect() throws OfficeException {
 		try {
-			process.start();
+			this.process.start();
 			new Retryable() {
-				protected void attempt() throws TemporaryException, Exception {
+				@Override
+        protected void attempt() throws TemporaryException, Exception {
 					try {
-						connection.connect();
-					} catch (ConnectException connectException) {
-						Integer exitCode = process.getExitCode();
+						ManagedOfficeProcess.this.connection.connect();
+					} catch (final ConnectException connectException) {
+						final Integer exitCode = ManagedOfficeProcess.this.process.getExitCode();
 						if (exitCode == null) {
 							// process is running; retry later
 							throw new TemporaryException(connectException);
-						} else if (exitCode.equals(EXIT_CODE_NEW_INSTALLATION)) {
+						} else if (exitCode.equals(ManagedOfficeProcess.EXIT_CODE_NEW_INSTALLATION)) {
 							// restart and retry later
 							// see http://code.google.com/p/jodconverter/issues/detail?id=84
-							logger.log(Level.WARNING, "office process died with exit code 81; restarting it");
-							process.start(true);
+							ManagedOfficeProcess.this.logger.warn("office process died with exit code 81; restarting it");
+							ManagedOfficeProcess.this.process.start(true);
 							throw new TemporaryException(connectException);
 						} else {
 							throw new OfficeException("office process died with exit code " + exitCode);
 						}
 					}
 				}
-			}.execute(settings.getRetryInterval(), settings.getRetryTimeout());
-		} catch (Exception exception) {
+			}.execute(this.settings.getRetryInterval(), this.settings.getRetryTimeout());
+		} catch (final Exception exception) {
 			throw new OfficeException("could not establish connection", exception);
 		}
 	}
 
 	private void doStopProcess() {
 		try {
-			XDesktop desktop = OfficeUtils.cast(XDesktop.class, connection.getService(OfficeUtils.SERVICE_DESKTOP));
+			final XDesktop desktop = OfficeUtils.cast(XDesktop.class, this.connection.getService(OfficeUtils.SERVICE_DESKTOP));
 			desktop.terminate();
-		} catch (DisposedException disposedException) {
+		} catch (final DisposedException disposedException) {
 			// expected
-		} catch (Exception exception) {
+		} catch (final Exception exception) {
 			// in case we can't get hold of the desktop
-			doTerminateProcess();
+			this.doTerminateProcess();
 		}
-		doEnsureProcessExited();
+		this.doEnsureProcessExited();
 	}
 
 	private void doEnsureProcessExited() throws OfficeException {
 		try {
-			int exitCode = process.getExitCode(settings.getRetryInterval(), settings.getRetryTimeout());
-			logger.info("process exited with code " + exitCode);
-		} catch (RetryTimeoutException retryTimeoutException) {
-			doTerminateProcess();
+			final int exitCode = this.process.getExitCode(this.settings.getRetryInterval(), this.settings.getRetryTimeout());
+			this.logger.info("process exited with code " + exitCode);
+		} catch (final RetryTimeoutException retryTimeoutException) {
+			this.doTerminateProcess();
 		}
-		process.deleteProfileDir();
+		this.process.deleteProfileDir();
 	}
 
 	private void doTerminateProcess() throws OfficeException {
 		try {
-			int exitCode = process.forciblyTerminate(settings.getRetryInterval(), settings.getRetryTimeout());
-			logger.info("process forcibly terminated with code " + exitCode);
-		} catch (Exception exception) {
+			final int exitCode = this.process.forciblyTerminate(this.settings.getRetryInterval(), this.settings.getRetryTimeout());
+			this.logger.info("process forcibly terminated with code " + exitCode);
+		} catch (final Exception exception) {
 			throw new OfficeException("could not terminate process", exception);
 		}
 	}
 
 	boolean isConnected() {
-		return connection.isConnected();
+		return this.connection.isConnected();
 	}
 
 }

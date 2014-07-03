@@ -16,7 +16,6 @@ import java.net.ConnectException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.logging.Logger;
 
 import com.sun.star.beans.XPropertySet;
 import com.sun.star.bridge.XBridge;
@@ -30,6 +29,9 @@ import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XEventListener;
 import com.sun.star.lang.XMultiComponentFactory;
 import com.sun.star.uno.XComponentContext;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 class OfficeConnection implements OfficeContext {
 
@@ -45,13 +47,13 @@ class OfficeConnection implements OfficeContext {
 
     private volatile boolean connected = false;
 
-    private XEventListener bridgeListener = new XEventListener() {
-        public void disposing(EventObject event) {
-            if (connected) {
-                connected = false;
-                logger.info(String.format("disconnected: '%s'", unoUrl));
-                OfficeConnectionEvent connectionEvent = new OfficeConnectionEvent(OfficeConnection.this);
-                for (OfficeConnectionEventListener listener : connectionEventListeners) {
+    private final XEventListener bridgeListener = new XEventListener() {
+        public void disposing(final EventObject event) {
+            if (OfficeConnection.this.connected) {
+                OfficeConnection.this.connected = false;
+                OfficeConnection.this.logger.info(String.format("disconnected: '%s'", OfficeConnection.this.unoUrl));
+                final OfficeConnectionEvent connectionEvent = new OfficeConnectionEvent(OfficeConnection.this);
+                for (final OfficeConnectionEventListener listener : OfficeConnection.this.connectionEventListeners) {
                     listener.disconnected(connectionEvent);
                 }
             }
@@ -59,57 +61,57 @@ class OfficeConnection implements OfficeContext {
         }
     };
 
-    private final Logger logger = Logger.getLogger(getClass().getName());
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    public OfficeConnection(UnoUrl unoUrl) {
+    public OfficeConnection(final UnoUrl unoUrl) {
         this.unoUrl = unoUrl;
     }
 
-    public void addConnectionEventListener(OfficeConnectionEventListener connectionEventListener) {
-        connectionEventListeners.add(connectionEventListener);
+    public void addConnectionEventListener(final OfficeConnectionEventListener connectionEventListener) {
+        this.connectionEventListeners.add(connectionEventListener);
     }
 
     public void connect() throws ConnectException {
-        logger.fine(String.format("connecting with connectString '%s'", unoUrl));
+        this.logger.debug("connecting with connectString '{}'", this.unoUrl);
         try {
-            XComponentContext localContext = Bootstrap.createInitialComponentContext(null);
-            XMultiComponentFactory localServiceManager = localContext.getServiceManager();
-            XConnector connector = OfficeUtils.cast(XConnector.class, localServiceManager.createInstanceWithContext("com.sun.star.connection.Connector", localContext));
-            XConnection connection = connector.connect(unoUrl.getConnectString());
-            XBridgeFactory bridgeFactory = OfficeUtils.cast(XBridgeFactory.class, localServiceManager.createInstanceWithContext("com.sun.star.bridge.BridgeFactory", localContext));
-            String bridgeName = "jodconverter_" + bridgeIndex.getAndIncrement();
-            XBridge bridge = bridgeFactory.createBridge(bridgeName, "urp", connection, null);
-            bridgeComponent = OfficeUtils.cast(XComponent.class, bridge);
-            bridgeComponent.addEventListener(bridgeListener);
-            serviceManager = OfficeUtils.cast(XMultiComponentFactory.class, bridge.getInstance("StarOffice.ServiceManager"));
-            XPropertySet properties = OfficeUtils.cast(XPropertySet.class, serviceManager);
-            componentContext = OfficeUtils.cast(XComponentContext.class, properties.getPropertyValue("DefaultContext"));
-            connected = true;
-            logger.info(String.format("connected: '%s'", unoUrl));
-            OfficeConnectionEvent connectionEvent = new OfficeConnectionEvent(this);
-            for (OfficeConnectionEventListener listener : connectionEventListeners) {
+            final XComponentContext localContext = Bootstrap.createInitialComponentContext(null);
+            final XMultiComponentFactory localServiceManager = localContext.getServiceManager();
+            final XConnector connector = OfficeUtils.cast(XConnector.class, localServiceManager.createInstanceWithContext("com.sun.star.connection.Connector", localContext));
+            final XConnection connection = connector.connect(this.unoUrl.getConnectString());
+            final XBridgeFactory bridgeFactory = OfficeUtils.cast(XBridgeFactory.class, localServiceManager.createInstanceWithContext("com.sun.star.bridge.BridgeFactory", localContext));
+            final String bridgeName = "jodconverter_" + OfficeConnection.bridgeIndex.getAndIncrement();
+            final XBridge bridge = bridgeFactory.createBridge(bridgeName, "urp", connection, null);
+            this.bridgeComponent = OfficeUtils.cast(XComponent.class, bridge);
+            this.bridgeComponent.addEventListener(this.bridgeListener);
+            this.serviceManager = OfficeUtils.cast(XMultiComponentFactory.class, bridge.getInstance("StarOffice.ServiceManager"));
+            final XPropertySet properties = OfficeUtils.cast(XPropertySet.class, this.serviceManager);
+            this.componentContext = OfficeUtils.cast(XComponentContext.class, properties.getPropertyValue("DefaultContext"));
+            this.connected = true;
+            this.logger.info(String.format("connected: '%s'", this.unoUrl));
+            final OfficeConnectionEvent connectionEvent = new OfficeConnectionEvent(this);
+            for (final OfficeConnectionEventListener listener : this.connectionEventListeners) {
                 listener.connected(connectionEvent);
             }
-        } catch (NoConnectException connectException) {
-            throw new ConnectException(String.format("connection failed: '%s'; %s", unoUrl, connectException.getMessage()));
-        } catch (Exception exception) {
-            throw new OfficeException("connection failed: "+ unoUrl, exception);
+        } catch (final NoConnectException connectException) {
+            throw new ConnectException(String.format("connection failed: '%s'; %s", this.unoUrl, connectException.getMessage()));
+        } catch (final Exception exception) {
+            throw new OfficeException("connection failed: "+ this.unoUrl, exception);
         }
     }
 
     public boolean isConnected() {
-        return connected;
+        return this.connected;
     }
 
     public synchronized void disconnect() {
-        logger.fine(String.format("disconnecting: '%s'", unoUrl));
-        bridgeComponent.dispose();
+        this.logger.debug("disconnecting: '{}'", this.unoUrl);
+        this.bridgeComponent.dispose();
     }
 
-    public Object getService(String serviceName) {
+    public Object getService(final String serviceName) {
         try {
-            return serviceManager.createInstanceWithContext(serviceName, componentContext);
-        } catch (Exception exception) {
+            return this.serviceManager.createInstanceWithContext(serviceName, this.componentContext);
+        } catch (final Exception exception) {
             throw new OfficeException(String.format("failed to obtain service '%s'", serviceName), exception);
         }
     }
