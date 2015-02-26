@@ -148,7 +148,8 @@ public class OfficeUtils {
             	for (final File subDir : containerPath.listFiles()) {
             		if (subDir.isDirectory() && subDir.getName().startsWith(home.getName())) {
                         if (getOfficeExecutable(subDir).isFile()) {
-                            return home;
+                            System.out.println("findOfficeHome: found " + subDir.getAbsolutePath());
+                            return subDir;
                         }
             		}
             	}
@@ -161,8 +162,8 @@ public class OfficeUtils {
         if (PlatformUtils.isMac()) {
             return new File(officeHome, "MacOS/soffice");
         } else if (PlatformUtils.isWindows()) {
-			return new File(officeHome, "program/soffice.exe");
-		}else {
+          return new File(officeHome, "program/soffice.exe");
+        }else {
             return new File(officeHome, "program/soffice.bin");
         }
     }
