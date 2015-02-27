@@ -80,6 +80,7 @@ class PooledOfficeManager implements OfficeManager {
          });
          this.currentTask = futureTask;
          try {
+             this.logger.info("Waiting for task completion for {} ms", this.settings.getTaskExecutionTimeout());
              futureTask.get(this.settings.getTaskExecutionTimeout(), TimeUnit.MILLISECONDS);
          } catch (final TimeoutException timeoutException) {
              this.managedOfficeProcess.restartDueToTaskTimeout();

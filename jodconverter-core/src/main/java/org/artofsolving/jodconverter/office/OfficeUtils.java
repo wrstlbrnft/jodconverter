@@ -21,10 +21,14 @@ import com.sun.star.beans.PropertyValue;
 import com.sun.star.uno.UnoRuntime;
 
 import org.artofsolving.jodconverter.util.PlatformUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class OfficeUtils {
 
     public static final String SERVICE_DESKTOP = "com.sun.star.frame.Desktop";
+
+    private static final Logger logger = LoggerFactory.getLogger(OfficeUtils.class);
 
     private OfficeUtils() {
         throw new AssertionError("utility class must not be instantiated");
@@ -148,13 +152,14 @@ public class OfficeUtils {
             	for (final File subDir : containerPath.listFiles()) {
             		if (subDir.isDirectory() && subDir.getName().startsWith(home.getName())) {
                         if (getOfficeExecutable(subDir).isFile()) {
-                            System.out.println("findOfficeHome: found " + subDir.getAbsolutePath());
+                            OfficeUtils.logger.info("found office installation at {}", subDir.getAbsolutePath());
                             return subDir;
                         }
             		}
             	}
             }
         }
+        OfficeUtils.logger.warn("Could not locate office!");
         return null;
     }
 
